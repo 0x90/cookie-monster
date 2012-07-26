@@ -48,7 +48,7 @@ class CookieMonster:
 		return False
 
 	def ontothosepackets(self, pkt):
-
+'''@todo: if we want to use a TableWidget to contain the cookies, the CookieMonster class may have to be a QObject to emit signals'''
 		if not "IP" in pkt:
 			print "no IP!"
 			print ls(pkt.payload)
@@ -83,6 +83,7 @@ class CookieMonster:
 		print "\n\n =============================================================="
 	
 	def extractcookie(self, rawcookie, cookiename):
+		'''@attention: this function isn't actually used???'''
 		for i in rawcookie.split(";"):
 			i = i.strip()
 			if i.startswith(cookiename):
@@ -99,11 +100,11 @@ class CookieMonster:
 		
 		print "\n [!]  "+source+" is sending cookies to "+host+"... "
 		
-		domain = host.split(".")[len(host.split("."))-2:]
+		domain = host.split(".")[-2:]
 		if domain[0] == "com":
-			domain = ".".join(host.split(".")[len(host.split("."))-3:])
+			domain = ".".join(host.split(".")[-3:])
 		else:
-			domain = ".".join(host.split(".")[len(host.split("."))-2:])
+			domain = ".".join(host.split(".")[-2:])
 
 		#adding cookies to cookiejar
 		for cookie in rawcookies.split("; "):
@@ -144,10 +145,12 @@ class CookieMonster:
 	def handlepkt(self, pkt):
 		self.ontothosepackets(pkt)
 	
-
+'''@todo: handle internal links, see 
+http://stackoverflow.com/questions/6951199/qwebview-doesnt-open-links-in-new-window-and-not-start-external-application-for 
+by flankerhqd017@gmailc.om''' 
 	def open_web(self, child_conn, cookiejar):
-
 		app = QApplication(sys.argv)
+		wind = QMainWindow()
 		view = QWebView()
 		nam = QNetworkAccessManager()
 		view.page().setNetworkAccessManager(nam)
@@ -164,10 +167,11 @@ class CookieMonster:
 		qnr.setRawHeader("User-Agent",useragent)
 
 		view.load(qnr)
-		
-		view.show()	
+		wind.setCentralWidget(view)
+		wind.show()
+		wind.setWindowTitle("Cookie Of "+host)	
 		app.exec_()
-
+'''@todo: maybe we can let user specify more ports to listen on '''
 	def sniff(self):
 		if self.filename:
 			sniff(offline=self.filename, prn=self.handlepkt,filter="tcp port http", store=0)
