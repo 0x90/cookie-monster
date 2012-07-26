@@ -48,7 +48,7 @@ class CookieMonster:
 		return False
 
 	def ontothosepackets(self, pkt):
-'''@todo: if we want to use a TableWidget to contain the cookies, the CookieMonster class may have to be a QObject to emit signals'''
+		'''@todo: if we want to use a TableWidget to contain the cookies, the CookieMonster class may have to be a QObject to emit signals'''
 		if not "IP" in pkt:
 			print "no IP!"
 			print ls(pkt.payload)
@@ -144,10 +144,9 @@ class CookieMonster:
 	
 	def handlepkt(self, pkt):
 		self.ontothosepackets(pkt)
-	
-'''@todo: handle internal links, see 
-http://stackoverflow.com/questions/6951199/qwebview-doesnt-open-links-in-new-window-and-not-start-external-application-for 
-by flankerhqd017@gmailc.om''' 
+		'''@todo: handle internal links, see 
+		http://stackoverflow.com/questions/6951199/qwebview-doesnt-open-links-in-new-window-and-not-start-external-application-for 
+		by flankerhqd017@gmailc.om''' 
 	def open_web(self, child_conn, cookiejar):
 		app = QApplication(sys.argv)
 		wind = QMainWindow()
@@ -171,8 +170,8 @@ by flankerhqd017@gmailc.om'''
 		wind.show()
 		wind.setWindowTitle("Cookie Of "+host)	
 		app.exec_()
-'''@todo: maybe we can let user specify more ports to listen on '''
 	def sniff(self):
+		'''@todo: maybe we can let user specify more ports to listen on '''
 		if self.filename:
 			sniff(offline=self.filename, prn=self.handlepkt,filter="tcp port http", store=0)
 		elif self.interface:
