@@ -14,7 +14,6 @@ import thread
 from multiprocessing import Queue, Pipe, Process
 import getopt
 
-
 class MonsterCore(QThread):
 	"""docstring for MonsterCore"""
 	filename = False
@@ -49,9 +48,8 @@ class MonsterCore(QThread):
 		return ""
 
 	def ontothosepackets(self, pkt):
-		if not "IP" in pkt:
-			print "no IP!"
-			print ls(pkt.payload)
+		if not IP in pkt:
+			print "not IP!"
 			return
 
 		if not TCP in pkt:
@@ -113,7 +111,10 @@ class MonsterCore(QThread):
 		elif self.interface:
 			if self.arp_target:
 				self.inthemiddle()
-			sniff(self.interface, prn=self.handlepkt,filter="tcp port http", store=0)
+			self.handleMonitor()
+
+	def handleMonitor(self):
+		sniff(self.interface, prn=self.handlepkt,filter="tcp port http", store=0)
 	def run(self):
 		self.sniff()
 

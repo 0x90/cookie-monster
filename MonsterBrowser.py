@@ -16,9 +16,12 @@ class MyBrowser(QWebView):
     def onLinkClicked(self, url):
         self.load(url)
 
-
+class MonsterWindow(QWidget):
+    def __init__(self, father = None):
+        super(MonsterWindow, self).__init__(father)
+        
 class MonsterBrowser():
-    urlPat = re.compile("http://([^/]*)(.*)")
+    urlPat = re.compile("https?://([^/]*)(.*)")
 
     def usage(self):
         print """

@@ -60,7 +60,7 @@ class CookieModel(QAbstractItemModel):
             print "not valid"
             return Qt.NoItemFlags
 
-        return Qt.ItemIsEnabled | Qt.ItemIsSelectable #| Qt.ItemIsEditable
+        return Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEditable
 
     def headerData(self, section, orientation, role):
         if orientation == Qt.Horizontal and role == Qt.DisplayRole:
@@ -186,8 +186,8 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     widget = QTreeView()
     model = CookieModel(None)
-    model.addCookie(("ASUS","192.168.1.1","cc98.org"), "aaa")
-    model.addCookie(("ASUS","192.168.1.1","cc98.org"), "bbb")
+    model.addCookie(("ASUS","192.168.1.1","cc98.org"), "aaa", "firefox")
+    model.addCookie(("ASUS","192.168.1.1","cc98.org"), "bbb", "firefox")
     widget.setModel(model)
     widget.show()
     app.exec_()
